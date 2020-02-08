@@ -13,7 +13,7 @@ export class TodosService {
   constructor(
     private todosStore: TodosStore
   ) {}
-  // region
+
   add(title: string): void {
     const todo = createTodo({ id: Math.random(), title });
     this.todosStore.add(todo);
@@ -36,5 +36,4 @@ export class TodosService {
       }
     });
   }
-  // endregion
 }
