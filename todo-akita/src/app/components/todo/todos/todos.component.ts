@@ -1,7 +1,8 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
-import {ID} from '@datorama/akita';
+import {action, ID} from '@datorama/akita';
 
 import {Todo} from '@/model/todo.model';
+import {TodosService} from '@/store/todos/todos.service';
 
 @Component({
   selector: 'app-todos',
@@ -29,5 +30,15 @@ export class TodosComponent {
 
   @Output()
   delete = new EventEmitter<ID>();
+
+  constructor(
+    private todosService: TodosService
+  ) {
+  }
+
+  @action('Todos delete todo')
+  deleteTodo(id): void {
+    this.todosService.delete(id);
+  }
 
 }
