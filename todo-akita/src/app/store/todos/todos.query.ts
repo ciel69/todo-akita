@@ -16,24 +16,23 @@ export class TodosQuery extends QueryEntity<TodosState, Todo> {
   selectVisibleTodos$ = combineLatest(
     this.selectVisibilityFilter$,
     this.selectAll(),
-    this.getVisibleTodos.bind(this)
+    this.getVisibleTodos
   );
 
   allCountTodos$ = this.selectCount();
   activeCountTodos$ = this.selectCount(entity => entity.completed);
   completedCountTodos$ = this.selectCount(entity => !entity.completed);
 
-  private filterTodos = {
-    [VISIBILITY_FILTER.SHOW_COMPLETED]: (todos: Todo[]) => todos.filter(t => t.completed),
-    [VISIBILITY_FILTER.SHOW_ACTIVE]: (todos: Todo[]) => todos.filter(t => !t.completed),
-    default: (todos: Todo[]) => todos,
-  };
-
   constructor(protected store: TodosStore) {
     super(store);
   }
 
   private getVisibleTodos(filter: VISIBILITY_FILTER, todos: Todo[]): Todo[] {
-    return (this.filterTodos[filter] || this.filterTodos.default)(todos);
+    const filterTodos = {
+      [VISIBILITY_FILTER.SHOW_COMPLETED]: (todo: Todo[]) => todo.filter(t => t.completed),
+      [VISIBILITY_FILTER.SHOW_ACTIVE]: (todo: Todo[]) => todo.filter(t => !t.completed),
+      default: (todo: Todo[]) => todo,
+    };
+    return (filterTodos[filter] || filterTodos.default)(todos);
   }
 }
