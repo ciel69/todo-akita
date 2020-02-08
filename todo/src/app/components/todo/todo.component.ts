@@ -9,8 +9,8 @@ import {initialFilters, VISIBILITY_FILTER} from '@/model/filter.model';
     <app-todo-form (addTodo)="add($event)"></app-todo-form>
     <app-todo-filter
       [filters]="filters"
-      (update)="changeFilter($event)"
       [active]="activeFilter"
+      (update)="changeFilter($event)"
     ></app-todo-filter>
     <app-todos
       [todos]="filterTodos"
